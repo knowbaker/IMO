@@ -11,21 +11,42 @@
   font: 10px sans-serif;
 }
  */
-svg {
+/* svg {
   font: 10px sans-serif;
 }
 .line {
   fill: none;
   stroke: #000;
   stroke-width: 1.5px;
+} */
+svg {
+  font: 10px sans-serif;
+}
+.axis {
+  font: 10px sans-serif;
 }
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: black;
   shape-rendering: crispEdges;
 }
+.grid .tick {
+    stroke: black;
+    stroke-opacity: 0.7;
+    shape-rendering: crispEdges;
+}
+.grid path {
+          stroke-width: 0;
+}
+/* .tick text{
+    font-size: 12px;
+  }
 
+  .tick line{
+    opacity: 0.2;
+  }
+ */
 /* .x.axis path {
   display: none;
 } */

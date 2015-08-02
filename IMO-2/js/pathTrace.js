@@ -36,25 +36,46 @@ app.directive('d3Bars', [ function() {
 			var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 			var yAxis = d3.svg.axis().scale(yScale).orient("left");
 			
-			//Create an SVG group Element for the Axis elements and call the xAxis function
-			console.log(yScale(1));
-			console.log(xScale(1975));
-			var yTrans = height - yScale(1);
-			console.log(yTrans);
-			var xTrans = yTrans - 600;
-			var xAxisGroup = svg.append("g").attr("transform", "translate(100," + 450 + ")")
+			var make_x_axis = function() {
+			    return d3.svg.axis()
+			        .scale(xScale)
+			        .orient("bottom")
+			}
+
+			var make_y_axis = function() {
+			  return d3.svg.axis()
+			      .scale(yScale)
+			      .orient("left")
+			}
+			
+			svg.append("g")
+	        .attr("class", "grid")
+	        .attr("transform", "translate(100," + 450 + ")")
+	        .call(make_x_axis()
+	            .tickSize(-400, 0, 0)
+	            .tickFormat("")
+	        )
+	        svg.append("g")            
+	        .attr("class", "grid")
+	        .attr("transform", "translate(100,50)")
+	        .call(make_y_axis()
+	        	.tickSize(-800, 0, 0)
+	        	.tickFormat("")
+	        )
+	        
+			var xAxisGroup = svg.append("g").attr("class", "x axis").attr("transform", "translate(100," + 450 + ")")
 								.call(xAxis)
 								.selectAll("text")
 						            .style("text-anchor", "end")
 						            .attr("dx", "-.8em")
 						            .attr("dy", "-1.2em")
 						            .attr("transform", "rotate(-90)" );
-			var yAxisGroup = svg.append("g").call(yAxis).attr("transform", "translate(100,50)");
+			var yAxisGroup = svg.append("g").attr("class", "y axis").call(yAxis).attr("transform", "translate(100,50)");
 			var lineFunction = d3.svg.line()
 										.x(function(d, i) { return xScale(d.x); })
 										.y(function(d, i) { return yScale(d.y); })
 										.interpolate("linear");
-
+			
 			var getInterpolation = function() {
 				  var interpolate = d3.scale.quantile()
 				      .domain([0,1])
@@ -67,7 +88,7 @@ app.directive('d3Bars', [ function() {
 			}
 
 			var linePath = svg.append("path")
-								.attr("stroke", "blue")
+								.attr("stroke", "steelblue")
 								.attr("stroke-width", 2)
 								.attr("fill", "none")
 								.attr("transform", "translate(100,50)")
