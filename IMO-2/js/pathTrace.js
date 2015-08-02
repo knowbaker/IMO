@@ -54,12 +54,24 @@ app.directive('d3Bars', [ function() {
 										.x(function(d, i) { return xScale(d.x); })
 										.y(function(d, i) { return yScale(d.y); })
 										.interpolate("linear");
+
+			var getInterpolation = function() {
+				  var interpolate = d3.scale.quantile()
+				      .domain([0,1])
+				      .range(d3.range(1, scope.data.lineData.length + 1));
+
+				  return function(t) {
+				      var interpolatedLine = scope.data.lineData.slice(0, interpolate(t));
+				      return lineFunction(interpolatedLine);
+			      }
+			}
+
 			var linePath = svg.append("path")
-								.attr("d", lineFunction(scope.data.lineData))
 								.attr("stroke", "blue")
 								.attr("stroke-width", 2)
 								.attr("fill", "none")
-								.attr("transform", "translate(100,50)");
+								.attr("transform", "translate(100,50)")
+								.transition().duration(3000).attrTween("d", getInterpolation);
 		}// end: link function
 	}
 } ]);
